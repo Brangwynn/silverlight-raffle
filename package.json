@@ -1,0 +1,25 @@
+{
+  "name": "silverlight-raffle",
+  "version": "1.0.0",
+  "description": "Small script to determine winners for Silverlight Raffle.",
+  "main": "silverlightWeeklyRaffle.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Brangwynn/silverlight-raffle.git"
+  },
+  "author": "brangwynn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Brangwynn/silverlight-raffle/issues"
+  },
+  "homepage": "https://github.com/Brangwynn/silverlight-raffle#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+  "dependencies": {
+    "papaparse": "^5.4.1"
+  }
+}
