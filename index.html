@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silverlight Weekly Raffle</title>
+</head>
+<body>
+    <h1>Silverlight Weekly Raffle</h1>
+    <form id="raffleForm">
+        <label for="names">Enter names and tickets (format: name,tickets; name,tickets; ...):</label><br>
+        <textarea id="names" name="names" rows="5" cols="50"></textarea><br>
+        <button type="button" onclick="runRaffleTest()">Run Raffle Test</button>
+    </form>
+    <pre id="output"></pre>
+
+    <script src="silverlightWeeklyRaffle.test.js"></script>
+    <script>
+        function runRaffleTest() {
+            const input = document.getElementById('names').value;
+            const output = document.getElementById('output');
+
+            if (input) {
+                window.runTest(input).then(result => {
+                    output.textContent = result;
+                }).catch(err => {
+                    output.textContent = 'Error: ' + err;
+                });
+            } else {
+                output.textContent = 'Please enter valid input data.';
+            }
+        }
+    </script>
+</body>
+</html>
