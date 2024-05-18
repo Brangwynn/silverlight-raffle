@@ -107,8 +107,8 @@ function runTest(namesInput, skippedNamesInput) {
 
             output += `\nBonus Prize Winners:\n${bonusPrizeWinners.map((winner, index) => `${index + 1}. ${winner}`).join('\n')}\n`;
             output += `\nUnique Users:\n${Array.from(uniqueUsers).map((user, index) => `${index + 1}. ${user}`).join('\n')}\n`;
-            output += `\n\nSkipped Names:\n${skippedNames.join('\n')}`;
-            output += `\nAssigned Tickets:\n${assignedTickets.map(item => `${item.name}: ${item.ticket}`).join('\n')}`;
+            output += `\nSkipped Names:\n${skippedNames.join('\n')}`;
+            output += `\n\nAssigned Tickets:\n${assignedTickets.map(item => `${item.name}: ${item.ticket}`).join('\n')}`;
 
             resolve(output);
         } catch (err) {
