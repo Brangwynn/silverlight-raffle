@@ -100,15 +100,15 @@ function runTest(namesInput, skippedNamesInput) {
             // Prepare the output string
             let output = `Total Tickets purchased: ${totalTickets}\n`;
             output += `Bonus Prizes: ${bonusPrizes}\n\n`;
-            output += 'Gold Prize Winners:\n';
+            output += 'Gold- Prize Winners:\n';
             if (firstPrize) output += `First Prize (Ticket #${firstPrize.ticket}): ${firstPrize.name}\n`;
             if (secondPrize) output += `Second Prize (Ticket #${secondPrize.ticket}): ${secondPrize.name}\n`;
             if (thirdPrize) output += `Third Prize (Ticket #${thirdPrize.ticket}): ${thirdPrize.name}\n`;
 
             output += `\nBonus Prize Winners:\n${bonusPrizeWinners.map((winner, index) => `${index + 1}. ${winner}`).join('\n')}\n`;
             output += `\nUnique Users:\n${Array.from(uniqueUsers).map((user, index) => `${index + 1}. ${user}`).join('\n')}\n`;
-            output += `\nSkipped Names:\n${skippedNames.join('\n')}`;
-            output += `\n\nAssigned Tickets:\n${assignedTickets.map(item => `${item.name}: ${item.ticket}`).join('\n')}`;
+            output += `\n\nSkipped Names:\n${skippedNames.join('\n')}`;
+            output += `\nAssigned Tickets:\n${assignedTickets.map(item => `${item.name}: ${item.ticket}`).join('\n')}`;
 
             resolve(output);
         } catch (err) {
