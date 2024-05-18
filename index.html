@@ -16,27 +16,92 @@
     <button id="backButton" onclick="window.close();">Back</button>
     <h1>Silverlight Weekly Raffle</h1>
     <form id="raffleForm">
-        <label for="names">Enter names and tickets (format: name,tickets; name,tickets; ...):</label><br>
-        <textarea id="names" name="names" rows="5" cols="50"></textarea><br>
-        <button type="button" onclick="runRaffleTest()">Run Raffle Test</button>
+        <label for="manualEntries">Enter names and tickets (format: name, tickets; name, tickets; ...):</label>
+        <textarea id="manualEntries" placeholder="name1, 1000; name2, 500;... name50, 5"></textarea>
+        <br>
+        <label for="csvFile">Or upload a CSV file:</label>
+        <input type="file" id="csvFile" accept=".csv">
+        <br>
+        <label for="skippedNames">Enter names to skip (format: name1, name2, ...):</label>
+        <input type="text" id="skippedNames" placeholder="name1, name2, ...">
+        <br>
+        <button type="button" onclick="handleRaffle()">Run Raffle Test</button>
+        <button type="button" onclick="exportCSV()">Export Results</button>
     </form>
     <pre id="output"></pre>
-
     <script src="silverlightWeeklyRaffle.test.js"></script>
     <script>
-        function runRaffleTest() {
-            const input = document.getElementById('names').value;
-            const output = document.getElementById('output');
+        let lastOutput = ''; // Store the last output for exporting
 
-            if (input) {
-                window.runTest(input).then(result => {
-                    output.textContent = result;
-                }).catch(err => {
-                    output.textContent = 'Error: ' + err;
-                });
+        function parseCSV(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const csvData = event.target.result;
+                    const lines = csvData.split('\n');
+                    const entries = lines.map(line => line.trim()).filter(line => line).join('; ');
+                    resolve(entries);
+                };
+                reader.onerror = (error) => reject(error);
+                reader.readAsText(file);
+            });
+        }
+
+        async function handleRaffle() {
+            const manualEntries = document.getElementById('manualEntries').value.trim();
+            const csvFile = document.getElementById('csvFile').files[0];
+            const skippedNames = document.getElementById('skippedNames').value.trim();
+
+            let entries;
+            if (csvFile) {
+                try {
+                    entries = await parseCSV(csvFile);
+                } catch (error) {
+                    document.getElementById('output').textContent = `Error reading CSV file: ${error}`;
+                    return;
+                }
             } else {
-                output.textContent = 'Please enter valid input data.';
+                entries = manualEntries;
             }
+
+            try {
+                const output = await runTest(entries, skippedNames);
+                document.getElementById('output').textContent = output;
+                lastOutput = output; // Store the output for exporting
+            } catch (error) {
+                document.getElementById('output').textContent = `Error: ${error}`;
+            }
+        }
+
+        function exportCSV() {
+            if (!lastOutput) {
+                alert('No results to export!');
+                return;
+            }
+
+            const csvContent = convertToCSV(lastOutput);
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+            const today = new Date();
+            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}${String(today.getDate()).padStart(2, '0')}${String(today.getFullYear()).slice(-2)}`;
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', `raffle_results_${formattedDate}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function convertToCSV(text) {
+            const lines = text.split('\n');
+            const csv = [];
+            lines.forEach(line => {
+                const cols = line.split(': ').map(col => col.replace(/,/g, ''));
+                csv.push(cols.join(','));
+            });
+            return csv.join('\n');
         }
     </script>
 </body>
