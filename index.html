@@ -5,7 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Silverlight Weekly Raffle</title>
 </head>
+<style>
+    #backButton {
+        position: fixed;
+        padding: 20px;
+        right: 20px;
+    }
+</style>
 <body>
+    <button id="backButton" onclick="window.close();">Back</button>
     <h1>Silverlight Weekly Raffle</h1>
     <form id="raffleForm">
         <label for="names">Enter names and tickets (format: name,tickets; name,tickets; ...):</label><br>
