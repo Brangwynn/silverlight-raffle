@@ -101,6 +101,7 @@ function runTest(namesInput, skippedNamesInput) {
             let output = `Total Tickets purchased: ${totalTickets}\n`;
             output += `Bonus Prizes: ${bonusPrizes}\n\n`;
             output += 'Gold Prize Winners:\n';
+
             if (firstPrize) output += `First Prize (Ticket #${firstPrize.ticket}): ${firstPrize.name}\n`;
             if (secondPrize) output += `Second Prize (Ticket #${secondPrize.ticket}): ${secondPrize.name}\n`;
             if (thirdPrize) output += `Third Prize (Ticket #${thirdPrize.ticket}): ${thirdPrize.name}\n`;
